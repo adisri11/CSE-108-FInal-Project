@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-// import playerImg from "../../assets/images/player.png";
 
 export default class MazeScene extends Phaser.Scene {
   constructor() {
@@ -7,13 +6,20 @@ export default class MazeScene extends Phaser.Scene {
   }
 
   preload() {
+    // maze 
     this.load.tilemapTiledJSON("maze", "/maze.tmj");
 
-    // Image used by Designer (3)
+    // darker tilest
     this.load.image("Designer (3)", "/Designer (3).png");
 
-    // Image used by lighter tile
+    // lighter tileset
     this.load.image("Designer (4)", "/Designer (4).png");
+
+    // coins 
+    this.load.image("fall_coin","/fall_coin.png" )
+
+    // charachter 
+    this.load.image("jack_o_lantern","/jack_o_lantern.png")
   }
 
 
@@ -30,8 +36,29 @@ export default class MazeScene extends Phaser.Scene {
       layer2.setCollisionByExclusion([-1]);
     }
 
+    // Initialize score
+    this.score = 0;
+    this.scoreText = this.add.text(16, 16, 'Score: 0', { 
+      fontSize: '32px', 
+      fill: '#fff',
+      stroke: '#000',
+      strokeThickness: 4
+    });
+    this.scoreText.setScrollFactor(0); // Keep UI fixed to camera
+
+    // Create coins group
+    this.coins = this.physics.add.group();
+
+    const coinLayer = map.getObjectLayer('Coins'); // Create this in Tiled
+    if (coinLayer) {
+      coinLayer.objects.forEach(coinObj => {
+        const coin = this.coins.create(coinObj.x, coinObj.y, 'fall_coin');
+        this.setupCoin(coin);
+      }); 
+    }
+
     // CREATE PLAYER FIRST
-    this.player = this.add.circle(200, 100, 20, 0xff0000);
+    this.player = this.physics.add.sprite(200,100,'jack_o_lantern')
     this.physics.add.existing(this.player);
     this.player.body.setCollideWorldBounds(true);
 
@@ -40,6 +67,9 @@ export default class MazeScene extends Phaser.Scene {
       this.physics.add.collider(this.player, layer2);
     }
 
+    // Coin collection
+    this.physics.add.overlap(this.player, this.coins, this.collectCoin, null, this);
+
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     const scaleX = 800 / map.widthInPixels;
     const scaleY = 600 / map.heightInPixels;
@@ -47,6 +77,36 @@ export default class MazeScene extends Phaser.Scene {
     this.cameras.main.setZoom(zoom);
 
     this.cursors = this.input.keyboard.createCursorKeys();
+  }
+
+  setupCoin(coin) {
+    // Add smooth rotation tween
+    this.tweens.add({
+      targets: coin,
+      angle: 360,
+      duration: 2000,
+      repeat: -1,
+      ease: 'Linear'
+    });
+
+    // Optional: Add floating effect
+    this.tweens.add({
+      targets: coin,
+      y: coin.y - 10,
+      duration: 1000,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut'
+    });
+  }
+
+  collectCoin(player, coin) {
+    coin.disableBody(true, true);
+    this.score += 10;
+    this.scoreText.setText('Score: ' + this.score);
+    
+    // Optional: Add collection sound
+    // this.sound.play('coinSound');
   }
 
   update() {
