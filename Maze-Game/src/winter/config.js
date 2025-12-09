@@ -1,6 +1,6 @@
 import Phaser, { Physics } from 'phaser';
 
-import PreloadScene from './scenes/PreloadScene'
+import PreloadWinter from './winter/scenes/PreloadWinter'
 import WinterMazeScene from './scenes/WinterMazeScene'
 
 const config = {
@@ -25,7 +25,7 @@ const config = {
     },
 
     scene: [
-        PreloadScene,
+        PreloadWinter,
         WinterMazeScene
     ]  
 };
