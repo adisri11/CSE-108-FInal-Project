@@ -5,8 +5,8 @@ import WinterMazeScene from './scenes/WinterMazeScene'
 
 const config = {
     type: Phaser.AUTO,
-    width: 70,
-    height: 50,
+    width: 2240,
+    height: 1600,
     parent: 'phaser-container',
     
     backgroundColor: '#D6EFFF',
