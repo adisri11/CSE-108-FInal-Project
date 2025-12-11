@@ -32,9 +32,7 @@ export default class FallMazeScene extends Phaser.Scene {
     const layer2 = map.createLayer("Tile Layer 2", [tileset1, tileset2], 0, 0);
 
     // Enable collision on layer 2
-    if (layer2) {
-      layer2.setCollisionByExclusion([-1]);
-    }
+    layer2.setCollisionByExclusion([-1]);
 
     // Initialize score
     this.score = 0;
@@ -83,6 +81,7 @@ export default class FallMazeScene extends Phaser.Scene {
     camera.centerOn(layer1.width / 2, layer1.height / 2);
 
     this.cursors = this.input.keyboard.createCursorKeys();
+
   }
 
   setupCoin(coin) {

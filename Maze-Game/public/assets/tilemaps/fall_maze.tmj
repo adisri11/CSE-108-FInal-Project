@@ -373,7 +373,7 @@
         {
          "columns":32,
          "firstgid":1,
-         "image":"Designer (3).png",
+         "image":"..\/tilesets\/Designer (3).png",
          "imageheight":1024,
          "imagewidth":1024,
          "margin":0,
@@ -387,7 +387,7 @@
         {
          "columns":32,
          "firstgid":1025,
-         "image":"Designer (4).png",
+         "image":"..\/tilesets\/Designer (4).png",
          "imageheight":1024,
          "imagewidth":1024,
          "margin":0,

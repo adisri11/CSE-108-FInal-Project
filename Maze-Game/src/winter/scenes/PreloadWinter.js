@@ -17,7 +17,7 @@ export default class PreloadWinter extends Phaser.Scene {
 
     this.load.image('player', 'assets/elements/snowman.png');
 
-    this.load.image('coin', 'assets/elements/fall_coin.png');
+    this.load.image('coin', 'assets/elements/winter_coin.png');
   }
 
   create() {

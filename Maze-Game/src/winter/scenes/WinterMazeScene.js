@@ -25,11 +25,24 @@ export default class WinterMazeScene extends Phaser.Scene {
     const startX = 32;
     const startY = 272;
 
+    this.coins = this.physics.add.group();
+
+    const coinLayer = map.getObjectLayer('Coins'); // Create this in Tiled
+    if (coinLayer) {
+      coinLayer.objects.forEach(coinObj => {
+        const coin = this.coins.create(coinObj.x, coinObj.y, 'coin');
+        this.setupCoin(coin);
+      }); 
+    }
+
     this.player = this.physics.add.sprite(startX, startY, "player");
     this.player.setScale(0.05);   
     this.player.setCollideWorldBounds(true);
 
     this.physics.add.collider(this.player, wallLayer);
+
+    // Coin collection overlap
+    this.physics.add.overlap(this.player, this.coins, this.collectCoin, null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -53,6 +66,36 @@ export default class WinterMazeScene extends Phaser.Scene {
       strokeThickness: 3
     });
     this.scoreText.setScrollFactor(0); 
+  }
+
+  setupCoin(coin) {
+    // Add smooth rotation tween
+    this.tweens.add({
+      targets: coin,
+      angle: 360,
+      duration: 2000,
+      repeat: -1,
+      ease: 'Linear'
+    });
+
+    // Optional: Add floating effect
+    this.tweens.add({
+      targets: coin,
+      y: coin.y - 10,
+      duration: 1000,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut'
+    });
+  }
+
+  collectCoin(player, coin) {
+    coin.disableBody(true, true);
+    this.score += 10;
+    this.scoreText.setText('Score: ' + this.score);
+    
+    // Optional: Add collection sound
+    // this.sound.play('coinSound');
   }
 
   update() {
