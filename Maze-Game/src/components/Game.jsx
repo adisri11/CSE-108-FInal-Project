@@ -15,8 +15,8 @@ export default function Game() {
 
     const config = {
       type: Phaser.AUTO,
-      width: 2500,
-      height: 3000,
+      width: 1280,
+      height: 800,
       parent: "phaser-game",
       physics: {
         default: "arcade",

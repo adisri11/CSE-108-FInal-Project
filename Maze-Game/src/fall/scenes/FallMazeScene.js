@@ -38,7 +38,7 @@ export default class FallMazeScene extends Phaser.Scene {
 
     // Initialize score
     this.score = 0;
-    this.scoreText = this.add.text(16, 16, 'Score: 0', { 
+    this.scoreText = this.add.text(-620, -365, 'Score: 0', { 
       fontSize: '32px', 
       fill: '#fff',
       stroke: '#000',
@@ -70,11 +70,17 @@ export default class FallMazeScene extends Phaser.Scene {
     // Coin collection
     this.physics.add.overlap(this.player, this.coins, this.collectCoin, null, this);
 
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    const scaleX = 800 / map.widthInPixels;
-    const scaleY = 600 / map.heightInPixels;
-    const zoom = Math.min(scaleX, scaleY);
-    this.cameras.main.setZoom(zoom);
+    const camera = this.cameras.main;
+
+    const zoomX = camera.width / layer1.width;
+    const zoomY = camera.height / layer1.height;
+    const finalZoom = Math.min(zoomX, zoomY);
+
+    camera.setZoom(finalZoom);
+
+    camera.setBounds(0, 0, layer1.width, layer1.height);
+
+    camera.centerOn(layer1.width / 2, layer1.height / 2);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -108,6 +114,7 @@ export default class FallMazeScene extends Phaser.Scene {
     // Optional: Add collection sound
     // this.sound.play('coinSound');
   }
+
 
   update() {
     const speed = 200;
