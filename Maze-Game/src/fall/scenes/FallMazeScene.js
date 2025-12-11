@@ -25,11 +25,14 @@ export default class FallMazeScene extends Phaser.Scene {
 
   create() {
     const map = this.make.tilemap({ key: "maze" });
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
     const tileset1 = map.addTilesetImage("Designer (3)", "Designer (3)");
     const tileset2 = map.addTilesetImage("Designer (4)", "Designer (4)");
 
     const layer1 = map.createLayer("Tile Layer 1", [tileset1, tileset2], 0, 0);
     const layer2 = map.createLayer("Tile Layer 2", [tileset1, tileset2], 0, 0);
+    
 
     // Enable collision on layer 2
     layer2.setCollisionByExclusion([-1]);
@@ -70,15 +73,28 @@ export default class FallMazeScene extends Phaser.Scene {
 
     const camera = this.cameras.main;
 
-    const zoomX = camera.width / layer1.width;
-    const zoomY = camera.height / layer1.height;
+    const mapWidth = map.widthInPixels;
+    const mapHeight = map.heightInPixels;
+
+    // Calculate zoom so the whole maze fits on screen
+    const zoomX = camera.width / mapWidth;
+    const zoomY = camera.height / mapHeight;
+
     const finalZoom = Math.min(zoomX, zoomY);
 
+    // Apply the zoom
     camera.setZoom(finalZoom);
 
-    camera.setBounds(0, 0, layer1.width, layer1.height);
+    // Set proper world bounds
+    camera.setBounds(0, 0, mapWidth, mapHeight);
 
-    camera.centerOn(layer1.width / 2, layer1.height / 2);
+    // Center the camera on the map
+    camera.centerOn(mapWidth / 2, mapHeight / 2);
+
+    // Do NOT follow the player if you want the maze to stay still.
+    // (Player moves inside a fixed full-maze view)
+
+    
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
