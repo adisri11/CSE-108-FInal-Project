@@ -2,32 +2,25 @@ import Phaser from 'phaser';
 
 export default class PreloadWinter extends Phaser.Scene {
   constructor() {
-    super('PreloadScene');
+    super('PreloadWinter');
   }
 
   preload() {
-    // ---- LOADING TEXT ----
-    const loadingText = this.add.text(450, 300, 'Loading...', {
+    const loadingText = this.add.text(640, 400, 'Loading...', {
       fontSize: '24px',
       fill: '#000',
     });
     loadingText.setOrigin(0.5);
 
-    this.load.tilemapTiledJSON(
-        'winter_maze_map',
-        'assets/tilemaps/winter_maze.tmj'
-      );
-      
-      this.load.image('winter_tiles', 'assets/tilesets/winter_tiles.png');
-      
-    //   this.load.spritesheet('player', 'assets/player/player.png', {
-    //     frameWidth: 32,
-    //     frameHeight: 32,
-    //   });      
+    this.load.tilemapTiledJSON('winter_maze_map', 'assets/tilemaps/winter_maze.tmj');
+    this.load.image('winter_tiles', 'assets/tilesets/winter_tiles.png');
+
+    this.load.image('player', 'assets/elements/snowman.png');
+
+    this.load.image('coin', 'assets/elements/fall_coin.png');
   }
 
   create() {
-    // When done loading, go to your main scene
     this.scene.start('WinterMazeScene');
   }
 }
