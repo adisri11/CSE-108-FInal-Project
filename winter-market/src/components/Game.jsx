@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Phaser from "phaser";
-import PreloadScene from "../phaser/scenes/PreloadScene";
+import PreloadScene from "../phaser/scenes/PreloadWinter";
 import WinterMazeScene from "../phaser/scenes/WinterMazeScene";
 
 const Game = () => {
