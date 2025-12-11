@@ -27,13 +27,56 @@ export default class WinterMazeScene extends Phaser.Scene {
 
     this.coins = this.physics.add.group();
 
-    const coinLayer = map.getObjectLayer('Coins'); // Create this in Tiled
-    if (coinLayer) {
-      coinLayer.objects.forEach(coinObj => {
-        const coin = this.coins.create(coinObj.x, coinObj.y, 'coin');
-        this.setupCoin(coin);
-      }); 
+    this.coins = this.physics.add.group();
+
+    const NUM_COINS = 20;               
+    const MIN_DISTANCE = 100;            
+    const PLAYER_START = { x: startX, y: startY };
+    const AVOID_PLAYER_RADIUS = 80;     
+    const tileSize = map.tileWidth;
+
+    
+    function isWallAt(x, y) {
+      return wallLayer.getTileAtWorldXY(x, y) !== null;
     }
+
+    function tooCloseToExisting(x, y) {
+      const children = this.coins.getChildren();
+      for (let i = 0; i < children.length; i++) {
+        const other = children[i];
+        if (Phaser.Math.Distance.Between(x, y, other.x, other.y) < MIN_DISTANCE) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    for (let i = 0; i < NUM_COINS; i++) {
+      let x, y;
+      let attempts = 0;
+
+      do {
+        attempts++;
+
+        const tileX = Phaser.Math.Between(0, map.width - 1);
+        const tileY = Phaser.Math.Between(0, map.height - 1);
+
+        x = tileX * tileSize + tileSize / 2;
+        y = tileY * tileSize + tileSize / 2;
+
+        // if attempts explode, stop infinite loops
+        if (attempts > 2000) break;
+
+      } while (
+          isWallAt(x, y) ||
+          tooCloseToExisting.call(this, x, y) ||
+          Phaser.Math.Distance.Between(x, y, PLAYER_START.x, PLAYER_START.y) < AVOID_PLAYER_RADIUS
+      );
+
+      const coin = this.coins.create(x, y, 'coin');
+      this.setupCoin(coin);
+    }
+
 
     this.player = this.physics.add.sprite(startX, startY, "player");
     this.player.setScale(0.05);   

@@ -50,13 +50,52 @@ export default class FallMazeScene extends Phaser.Scene {
     // Create coins group
     this.coins = this.physics.add.group();
 
-    const coinLayer = map.getObjectLayer('Coins'); // Create this in Tiled
-    if (coinLayer) {
-      coinLayer.objects.forEach(coinObj => {
-        const coin = this.coins.create(coinObj.x, coinObj.y, 'fall_coin');
-        this.setupCoin(coin);
-      }); 
+    this.coins = this.physics.add.group();
+
+    const NUM_COINS = 20;              
+    const MIN_DISTANCE = 100;         
+    const PLAYER_START = { x: 200, y: 100 };
+    const AVOID_PLAYER_RADIUS = 80;    
+    const tileSize = map.tileWidth;
+
+    const isWallAt = (x, y) => {
+      return layer2.getTileAtWorldXY(x, y) !== null;
+    };
+
+    const tooCloseToExisting = (x, y) => {
+      const coins = this.coins.getChildren();
+      for (let c of coins) {
+        if (Phaser.Math.Distance.Between(x, y, c.x, c.y) < MIN_DISTANCE) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    for (let i = 0; i < NUM_COINS; i++) {
+      let x, y;
+      let attempts = 0;
+
+      do {
+        attempts++;
+
+        const tileX = Phaser.Math.Between(0, map.width - 1);
+        const tileY = Phaser.Math.Between(0, map.height - 1);
+
+        x = tileX * tileSize + tileSize / 2;
+        y = tileY * tileSize + tileSize / 2;
+
+        if (attempts > 2000) break; // avoid infinite loops
+      } while (
+        isWallAt(x, y) ||
+        tooCloseToExisting(x, y) ||
+        Phaser.Math.Distance.Between(x, y, PLAYER_START.x, PLAYER_START.y) < AVOID_PLAYER_RADIUS
+      );
+
+      const coin = this.coins.create(x, y, 'fall_coin');
+      this.setupCoin(coin);
     }
+
 
     // CREATE PLAYER FIRST
     this.player = this.physics.add.sprite(200,100,'jack_o_lantern')
