@@ -74,7 +74,25 @@ def logout():
 
 @app.route("/fall")
 def fall():
-    return "Fall maze goes here"
+    if "user_id" not in session:
+        return redirect("/login")
+
+    return render_template("fall.html")
+
+
+@app.route("/fall/complete", methods=["POST"])
+def fall_complete():
+    if "user_id" not in session:
+        return redirect("/login")
+
+    data = request.get_json()
+    tokens_earned = data.get("tokens", 0)
+
+    user = User.query.get(session["user_id"])
+    user.tokens += tokens_earned
+    db.session.commit()
+
+    return {"status": "success"}
 
 @app.route("/winter")
 def winter():
