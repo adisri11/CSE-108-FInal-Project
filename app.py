@@ -77,22 +77,18 @@ def fall():
     if "user_id" not in session:
         return redirect("/login")
 
-    return render_template("fall.html")
-
+    return redirect("http://localhost:5173")
 
 @app.route("/fall/complete", methods=["POST"])
 def fall_complete():
-    if "user_id" not in session:
-        return redirect("/login")
-
     data = request.get_json()
-    tokens_earned = data.get("tokens", 0)
+    tokens = data.get("tokens", 0)
 
     user = User.query.get(session["user_id"])
-    user.tokens += tokens_earned
+    user.tokens += tokens
     db.session.commit()
 
-    return {"status": "success"}
+    return {"status": "ok"}
 
 @app.route("/winter")
 def winter():
