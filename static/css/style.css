@@ -1,0 +1,78 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+/* Page background */
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #2b5876, #4e4376);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* Card container */
+.game-card {
+  background: rgba(0, 0, 0, 0.75);
+  padding: 30px 40px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Title */
+.game-card h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.game-card p {
+  margin-bottom: 20px;
+  opacity: 0.85;
+}
+
+/* Inputs */
+.game-card input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
+
+/* Button */
+.game-card button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: none;
+  background: #f9a826;
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+
+.game-card button:hover {
+  background: #ffb84d;
+  transform: scale(1.03);
+}
+
+/* Links */
+.game-card a {
+  color: #f9a826;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.game-card a:hover {
+  text-decoration: underline;
+}

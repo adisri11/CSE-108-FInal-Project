@@ -1,12 +1,29 @@
-<h2>Welcome, {{ user.username }}</h2>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Choose Your Maze</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
 
-<p>Tokens: {{ user.tokens }}</p>
+  <div class="game-card">
+    <h1>Welcome, {{ user.username }}</h1>
+    <p>Tokens: <strong>{{ user.tokens }}</strong></p>
 
-<p>Choose a maze:</p>
+    <p>Choose your adventure:</p>
 
-<a href="/fall"><button>Fall Maze</button></a>
-<br><br>
-<a href="/winter"><button>Winter Maze</button></a>
-<br><br>
+    <a href="/fall">
+      <button>Fall Maze</button>
+    </a>
 
-<a href="/logout">Logout</a>
+    <a href="/winter">
+      <button>Winter Maze</button>
+    </a>
+
+    <p style="margin-top: 20px;">
+      <a href="/logout">Log out</a>
+    </p>
+  </div>
+
+</body>
+</html>
