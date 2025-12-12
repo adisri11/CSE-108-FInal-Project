@@ -109,6 +109,22 @@ export default class WinterMazeScene extends Phaser.Scene {
       strokeThickness: 3
     });
     this.scoreText.setScrollFactor(0); 
+
+    // --- FINISH ZONE ---
+    const finishLayer = map.getObjectLayer("Finish");
+    if (finishLayer && finishLayer.objects.length > 0) {
+      const f = finishLayer.objects[0];
+
+      this.finishZone = this.physics.add.staticImage(f.x, f.y, null)
+        .setSize(f.width, f.height)
+        .setOrigin(0)
+        .setVisible(false);
+
+      this.physics.add.overlap(this.player, this.finishZone, () => {
+        this.handleFinish();
+      });
+    }
+
   }
 
   setupCoin(coin) {
@@ -140,6 +156,75 @@ export default class WinterMazeScene extends Phaser.Scene {
     // Optional: Add collection sound
     // this.sound.play('coinSound');
   }
+
+  handleFinish() {
+    // Stop player movement
+    this.player.body.setVelocity(0);
+    this.player.active = false;
+  
+    const { width, height } = this.cameras.main;
+  
+    // Dark transparent background
+    const overlay = this.add.rectangle(
+      this.cameras.main.worldView.x + width / 2,
+      this.cameras.main.worldView.y + height / 2,
+      width,
+      height,
+      0x000000,
+      0.6
+    );
+    overlay.setScrollFactor(0);
+  
+    // Popup box
+    const box = this.add.rectangle(
+      this.cameras.main.worldView.x + width / 2,
+      this.cameras.main.worldView.y + height / 2,
+      500,
+      300,
+      0xffffff,
+    );
+    box.setScrollFactor(0);
+  
+    // Score text
+    const scoreText = this.add.text(
+      this.cameras.main.worldView.x + width / 2,
+      this.cameras.main.worldView.y + height / 2 - 60,
+      `Your Score: ${this.score}`,
+      { fontSize: '40px', fill: '#000' }
+    );
+    scoreText.setOrigin(0.5);
+    scoreText.setScrollFactor(0);
+  
+    // Replay button
+    const replay = this.add.text(
+      this.cameras.main.worldView.x + width / 2,
+      this.cameras.main.worldView.y + height / 2 + 10,
+      "Replay",
+      { fontSize: '32px', fill: '#000', backgroundColor: '#ddd', padding: 12 }
+    );
+    replay.setOrigin(0.5);
+    replay.setInteractive();
+    replay.setScrollFactor(0);
+  
+    replay.on('pointerdown', () => {
+      this.scene.start("FallMazeScene"); // restart this same maze
+    });
+  
+    // Exit button
+    const exit = this.add.text(
+      this.cameras.main.worldView.x + width / 2,
+      this.cameras.main.worldView.y + height / 2 + 80,
+      "Exit",
+      { fontSize: '32px', fill: '#000', backgroundColor: '#ddd', padding: 12 }
+    );
+    exit.setOrigin(0.5);
+    exit.setInteractive();
+    exit.setScrollFactor(0);
+  
+    exit.on('pointerdown', () => {
+      this.scene.start("MainMenu"); // or whatever your menu scene is called
+    });
+  }  
 
   update() {
     const speed = 200;

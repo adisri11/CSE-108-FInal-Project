@@ -362,9 +362,42 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":6,
+         "name":"Finish",
+         "objects":[
+                {
+                 "height":94.4988187647655,
+                 "id":20,
+                 "name":"finish",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":84.3739453256833,
+                 "x":1997.97502531218,
+                 "y":1441.10698616267
+                }, 
+                {
+                 "height":0,
+                 "id":21,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":60.7492406344921,
+                 "y":-91.1238609517381
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":6,
- "nextobjectid":20,
+ "nextlayerid":7,
+ "nextobjectid":22,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

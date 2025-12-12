@@ -117,6 +117,7 @@
             482, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 362, 363, 364, 365, 366, 379, 739, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":50,
          "id":2,
+         "locked":true,
          "name":"Walls",
          "opacity":1,
          "properties":[
@@ -134,6 +135,7 @@
         {
          "draworder":"topdown",
          "id":4,
+         "locked":true,
          "name":"Coins",
          "objects":[
                 {
@@ -369,9 +371,31 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"Finish",
+         "objects":[
+                {
+                 "height":114.429249232487,
+                 "id":29,
+                 "name":"finish",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":142.33882221602,
+                 "x":1889.47809098521,
+                 "y":1448.50683784538
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":22,
+ "nextlayerid":6,
+ "nextobjectid":30,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

@@ -169,7 +169,6 @@ export default class FallMazeScene extends Phaser.Scene {
     // this.sound.play('coinSound');
   }
 
-
   update() {
     const speed = 200;
     const body = this.player.body;
