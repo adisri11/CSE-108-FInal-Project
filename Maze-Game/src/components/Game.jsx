@@ -29,6 +29,9 @@ export default function Game() {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
       },
+      dom: {
+        createContainer: true // Enable DOM elements
+      },
       scene: [
         // Fall
         FallMazeScene,
@@ -50,7 +53,7 @@ export default function Game() {
   }, []);
 
   return (
-    <div 
+    <div
       id="phaser-game"
       style={{
         width: "100vw",

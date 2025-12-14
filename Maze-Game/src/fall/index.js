@@ -11,6 +11,9 @@ export const createGame = (parentId) => {
       default: "arcade",
       arcade: { debug: true }
     },
+    dom: {
+        createContainer: true // Enable DOM elements
+    },
     scene: [FallMazeScene]
   });
 };
