@@ -76,3 +76,75 @@ body {
 .game-card a:hover {
   text-decoration: underline;
 }
+
+/* TOKEN STORE PAGE STYLES */
+.store-card {
+  background: rgba(0, 0, 0, 0.75);
+  padding: 30px 40px;
+  border-radius: 16px;
+  width: 360px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.store-card h1,
+.store-card h2 {
+  margin-bottom: 15px;
+}
+
+/* Item box */
+.store-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.store-item-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.store-item-price {
+  color: #f9a826;
+  font-size: 15px;
+}
+
+.store-item button {
+  padding: 8px 14px;
+  width: auto;
+  margin: 0;
+  border-radius: 8px;
+  border: none;
+  background: #f9a826;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+
+.store-item button:hover {
+  background: #ffb84d;
+  transform: scale(1.03);
+}
+
+.inventory-box {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.inventory-box ul {
+  padding: 0;
+  list-style: none;
+}
+
+.inventory-box li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
