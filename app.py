@@ -40,6 +40,7 @@ def login():
         password = request.form["password"]
 
         user = User.query.filter_by(username=username).first()
+
         if user and user.check_password(password):
             session["user_id"] = user.id
             return redirect("/game")
@@ -67,11 +68,6 @@ def add_token():
 
     return redirect("/game")
 
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/login")
-
 @app.route("/fall")
 def fall():
     if "user_id" not in session:
@@ -90,10 +86,55 @@ def fall_complete():
 
     return {"status": "ok"}
 
+
+# STORE SYSTEM - Joshua Freitas
+@app.route("/store")
+def store():
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user = User.query.get(session["user_id"])
+
+    items = [
+        {"name": "item 1", "price": 20},
+        {"name": "item 2", "price": 35},
+        {"name": "item 3", "price": 50},
+    ]
+
+    return render_template("store.html", user=user, items=items)
+
+@app.route("/store/buy", methods=["POST"])
+def store_buy():
+    if "user_id" not in session:
+        return redirect("/login")
+
+    item = request.form.get("item")
+    price = int(request.form.get("price"))
+
+    user = User.query.get(session["user_id"])
+
+    if user.tokens < price:
+        return "Not enough tokens!"
+
+    user.tokens -= price
+
+    if user.inventory:
+        user.inventory += f",{item}"
+    else:
+        user.inventory = item
+
+    db.session.commit()
+
+    return redirect("/store")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
+
 @app.route("/winter")
 def winter():
     return "Winter maze goes here"
-
 
 if __name__ == "__main__":
     app.run(debug=True)
