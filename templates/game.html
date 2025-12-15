@@ -1,0 +1,11 @@
+<h2>Welcome, {{ user.username }}</h2>
+<p>Tokens: {{ user.tokens }}</p>
+<p>Character: {{ user.character }}</p>
+
+<form method="POST" action="/add-token">
+  <button type="submit">Win 10 Tokens</button>
+</form>
+
+<a href="/logout">Logout</a>
+
+<script src="/static/js/game.js"></script>
