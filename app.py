@@ -4,10 +4,9 @@ import os
 from dotenv import load_dotenv
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:QBaWvXPIb7ftLOsX@db.echpoiaidsqcaynlygdk.supabase.co:5432/postgres"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
-
+app.config["SECRET_KEY"] = "073bb069e67008f68e33e565d92812db4ee2c02fc9ac2630c39ed30e4cd3e6fa"
 db.init_app(app)
 
 with app.app_context():
