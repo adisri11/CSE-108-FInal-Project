@@ -359,25 +359,167 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
          "id":6,
-         "name":"Exit",
+         "name":"Riddles",
          "objects":[
                 {
-                 "height":188.631578947369,
+                 "height":0,
+                 "id":20,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"answer",
+                         "type":"string",
+                         "value":"A potato."
+                        }, 
+                        {
+                         "name":"question",
+                         "type":"string",
+                         "value":"I have eyes but cannot see. What am I?"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":887.878787878788,
+                 "y":1278.78787878788
+                }, 
+                {
+                 "height":0,
+                 "id":21,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"answer",
+                         "type":"string",
+                         "value":"A doughnut."
+                        }, 
+                        {
+                         "name":"question",
+                         "type":"string",
+                         "value":"What food has no beginning, middle, or end?"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":496.969696969697,
+                 "y":915.151515151515
+                }, 
+                {
+                 "height":0,
+                 "id":22,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"answer",
+                         "type":"string",
+                         "value":"A mushroom."
+                        }, 
+                        {
+                         "name":"question",
+                         "type":"string",
+                         "value":"I'm a room you can eat. What am I?"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1393.93939393939,
+                 "y":851.515151515152
+                }, 
+                {
+                 "height":0,
+                 "id":23,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"answer",
+                         "type":"string",
+                         "value":"Chewing gum."
+                        }, 
+                        {
+                         "name":"question",
+                         "type":"string",
+                         "value":"I get chewed and chewed but never swallowed or eaten. I'm always thrown away. What am I?"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1845.45454545455,
+                 "y":1257.57575757576
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":7,
+         "name":"FinishLine",
+         "objects":[
+                {
+                 "height":90.9090909090908,
+                 "id":24,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"finish"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":78.7878787878788,
+                 "x":1990.90909090909,
+                 "y":1442.42424242424
+                }, 
+                {
+                 "height":0,
+                 "id":25,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2051.51515151515,
+                 "y":1490.90909090909
+                }, 
+                {
+                 "height":0,
                  "id":26,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":226.357894736842,
-                 "x":1924.04210526316,
-                 "y":1402.16140350877
+                 "width":0,
+                 "x":2021.21212121212,
+                 "y":1478.78787878788
+                }, 
+                {
+                 "height":0,
+                 "id":27,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1990.90909090909,
+                 "y":1606.06060606061
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -385,7 +527,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
+ "nextlayerid":8,
  "nextobjectid":28,
  "orientation":"orthogonal",
  "renderorder":"right-down",

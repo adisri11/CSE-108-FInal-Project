@@ -15,23 +15,22 @@ export default function Login() {
     setError("");
 
     try {
-      const formData = new FormData();
-      formData.append("username", username);
-      formData.append("password", password);
-
       const response = await fetch("http://localhost:5000/login", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
         credentials: "include",
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         navigate("/game");
       } else {
-        setError("Invalid username or password");
+        setError(data.error || "Invalid username or password");
       }
     } catch (err) {
-      setError("Login failed. Please try again.");
+      setError("Login failed. Is the backend running?");
     } finally {
       setLoading(false);
     }

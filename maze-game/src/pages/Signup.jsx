@@ -15,23 +15,22 @@ export default function Signup() {
     setError("");
 
     try {
-      const formData = new FormData();
-      formData.append("username", username);
-      formData.append("password", password);
-
       const response = await fetch("http://localhost:5000/signup", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
         credentials: "include",
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         navigate("/game");
       } else {
-        setError("Signup failed. Username may already exist.");
+        setError(data.error || "Signup failed");
       }
     } catch (err) {
-      setError("Signup failed. Please try again.");
+      setError("Signup failed. Is the backend running?");
     } finally {
       setLoading(false);
     }
