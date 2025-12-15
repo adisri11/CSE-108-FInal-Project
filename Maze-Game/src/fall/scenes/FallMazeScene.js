@@ -288,6 +288,7 @@ export default class FallMazeScene extends Phaser.Scene {
     // *** NEW: Apply reverse scale transformation to the DOM object ***
     // This scales the DOM element up so that when the camera zoom scales it down, 
     // it ends up appearing at the correct size.
+    
 
     const inputField = this.add.dom(inputFieldX+1000, inputFieldY +700)
       .createFromHTML(`
@@ -300,8 +301,8 @@ export default class FallMazeScene extends Phaser.Scene {
             font-size: 20px;
             border: 2px solid #000;
             border-radius: 5px;
-             
-          "
+             /* CRITICAL FIX: Scale the DOM element to counteract the camera zoom */
+        "
           autofocus
         />
       `);
