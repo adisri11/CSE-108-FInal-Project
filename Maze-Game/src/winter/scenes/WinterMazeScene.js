@@ -362,6 +362,7 @@ export default class WinterMazeScene extends Phaser.Scene {
     // Stop player movement
     this.player.body.setVelocity(0);
     this.player.active = false;
+    this.physics.pause();
 
     const { width, height } = this.cameras.main;
     const centerX = width / 2;
