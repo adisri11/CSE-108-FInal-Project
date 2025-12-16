@@ -1,4 +1,4 @@
-.auth-container {
+/* .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,4 +84,100 @@
   border-radius: 5px;
   margin-bottom: 20px;
   border-left: 4px solid #c33;
+} */
+/* AuthPages.css - Login and Signup styling */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.game-card {
+  background: white;
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.game-card h1 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.game-card p {
+  color: #666;
+  margin: 0 0 25px 0;
+  font-size: 16px;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  border: 1px solid #ef5350;
+}
+
+.game-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.game-card input {
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.game-card input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.game-card button {
+  padding: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.game-card button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.game-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.game-card a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.game-card a:hover {
+  text-decoration: underline;
 }
