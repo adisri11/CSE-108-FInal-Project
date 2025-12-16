@@ -41,8 +41,8 @@ export default class FallMazeScene extends Phaser.Scene {
 
     // Initialize score with larger text
     this.score = 0;
-    this.scoreText = this.add.text(20, 20, 'Score: 0', {
-      fontSize: '48px',
+    this.scoreText = this.add.text(-620, -365, 'Score: 0', {
+      fontSize: '36px',
       fill: '#fff',
       stroke: '#000',
       strokeThickness: 6
@@ -236,7 +236,7 @@ export default class FallMazeScene extends Phaser.Scene {
       centerY - 120,
       riddle.question || "No question found",
       {
-        fontSize: "24px",
+        fontSize: "30px",
         fill: "#000000",
         align: "center",
         wordWrap: { width: boxWidth - 40 }
@@ -359,73 +359,7 @@ export default class FallMazeScene extends Phaser.Scene {
     this.scoreText.setText('Score: ' + this.score);
   }
 
-  // async handleFinish() {
-  //   this.player.body.setVelocity(0);
-  //   this.player.active = false;
 
-  //   const { width, height } = this.cameras.main;
-  //   const centerX = width / 2;
-  //   const centerY = height / 2;
-
-  //   const overlay = this.add.rectangle(centerX, centerY, width, height, 0x000000, 0.6);
-  //   overlay.setScrollFactor(0);
-
-  //   const box = this.add.rectangle(centerX, centerY, 500, 300, 0xffffff);
-  //   box.setScrollFactor(0);
-
-  //   const scoreText = this.add.text(
-  //     centerX,
-  //     centerY - 60,
-  //     `Your Score: ${this.score}`,
-  //     { fontSize: '40px', fill: '#000' }
-  //   );
-  //   scoreText.setOrigin(0.5);
-  //   scoreText.setScrollFactor(0);
-
-  //   const replay = this.add.text(
-  //     centerX,
-  //     centerY + 10,
-  //     "Replay",
-  //     { fontSize: '32px', fill: '#000', backgroundColor: '#ddd', padding: 12 }
-  //   );
-  //   replay.setOrigin(0.5);
-  //   replay.setInteractive();
-  //   replay.setScrollFactor(0);
-
-  //   replay.on('pointerdown', async () => {
-  //     try {
-  //       // Save tokens to backend when replaying
-  //       await api.completeMaze('fall', this.score);
-  //       console.log(`Saved ${this.score} tokens!`);
-  //     } catch (err) {
-  //       console.error('Failed to save tokens:', err);
-  //     }
-  //     this.scene.restart();
-  //   });
-    
-  //   // Exit button
-  //   const exit = this.add.text(
-  //     centerX,
-  //     centerY + 80,
-  //     "Store",
-  //     { fontSize: '32px', fill: '#000', backgroundColor: '#ddd', padding: 12 }
-  //   );
-  //   exit.setOrigin(0.5);
-  //   exit.setInteractive();
-  //   exit.setScrollFactor(0);
-
-  //   exit.on('pointerdown', async () => {
-  //     try {
-  //       // Save tokens to backend when exiting to store
-  //       await api.completeMaze('fall', this.score);
-  //       console.log(`Saved ${this.score} tokens!`);
-  //     } catch (err) {
-  //       console.error('Failed to save tokens:', err);
-  //     }
-  //     window.mazeGameEvent = 'exit';
-  //     this.game.destroy(true);
-  //   });
-  // }
   async handleFinish() {
     // Prevent multiple triggers
     if (this.finishTriggered) return;

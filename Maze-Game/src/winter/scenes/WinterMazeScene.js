@@ -91,7 +91,7 @@ export default class WinterMazeScene extends Phaser.Scene {
     console.log("Attempting to create player with texture:", this.selectedCharacter);
     console.log("Available textures:", this.textures.list);
     console.log("Does texture exist?", this.textures.exists(this.selectedCharacter));
-    
+
     if (!this.textures.exists(this.selectedCharacter)) {
       console.warn(`Texture '${this.selectedCharacter}' not found! Available:`, this.textures.list);
       console.warn("Using fallback: jack_o_lantern");
@@ -230,7 +230,7 @@ export default class WinterMazeScene extends Phaser.Scene {
       centerY - 120,
       riddle.question || "No question found",
       {
-        fontSize: "24px",
+        fontSize: "30px",
         fill: "#000000",
         align: "center",
         wordWrap: { width: boxWidth - 40 }
@@ -360,6 +360,9 @@ export default class WinterMazeScene extends Phaser.Scene {
 
   async handleFinish() {
     // Stop player movement
+    if (this.finishTriggered) return;
+    this.finishTriggered = true;
+
     this.player.body.setVelocity(0);
     this.player.active = false;
     this.physics.pause();
@@ -394,10 +397,11 @@ export default class WinterMazeScene extends Phaser.Scene {
       { fontSize: '32px', fill: '#000', backgroundColor: '#ddd', padding: 12 }
     );
     replay.setOrigin(0.5);
-    replay.setInteractive();
+    replay.setInteractive({ useHandCursor: true });
     replay.setScrollFactor(0);
 
     replay.on('pointerdown', async () => {
+      console.log("Replay button clicked");
       try {
         // Save tokens to backend when replaying
         await api.completeMaze('winter', this.score);
@@ -405,9 +409,17 @@ export default class WinterMazeScene extends Phaser.Scene {
       } catch (err) {
         console.error('Failed to save tokens:', err);
       }
+
+
+      // Reset all scene state
+      this.finishTriggered = false;
+      this.sceneReady = false;
+      this.currentRiddle = null;
+
       this.scene.restart(); // Restart Winter Maze
     });
 
+    // Exit/Store button
     // Exit/Store button
     const exit = this.add.text(
       centerX,
@@ -416,10 +428,11 @@ export default class WinterMazeScene extends Phaser.Scene {
       { fontSize: '32px', fill: '#000', backgroundColor: '#ddd', padding: 12 }
     );
     exit.setOrigin(0.5);
-    exit.setInteractive();
+    exit.setInteractive({ useHandCursor: true }); // FIXED: removed extra ()
     exit.setScrollFactor(0);
 
     exit.on('pointerdown', async () => {
+      console.log("Store button clicked");
       try {
         // Save tokens to backend before exiting
         await api.completeMaze('winter', this.score);
@@ -428,7 +441,9 @@ export default class WinterMazeScene extends Phaser.Scene {
         console.error('Failed to save tokens:', err);
       }
       window.mazeGameEvent = 'exit';
-      this.game.destroy(true);
+      // this.game.destroy(true);
+
+      await new Promise(resolve => setTimeout(resolve, 100));
     });
   }
 
