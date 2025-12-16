@@ -11,6 +11,20 @@ export const api = {
     return response.json();
   },
 
+  // Set user's active character
+  async setCharacter(characterId) {
+    const response = await fetch(`${API_BASE}/api/user/character`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        character: characterId,
+      }),
+    });
+    if (!response.ok) throw new Error("Failed to set character");
+    return response.json();
+  },
+
   // Complete a maze and earn tokens
   async completeMaze(mazeType = "fall", tokensEarned = 10) {
     const response = await fetch(`${API_BASE}/api/complete-maze`, {
@@ -51,3 +65,4 @@ export const api = {
     return response.json();
   },
 };
+

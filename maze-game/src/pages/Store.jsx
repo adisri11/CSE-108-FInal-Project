@@ -29,15 +29,28 @@ export default function Store() {
     fetchData();
   }, [navigate]);
 
-  const handleBuy = async (itemName, price) => {
+  const handleBuy = async (itemId, price) => {
     try {
-      const result = await api.buyItem(itemName, price);
+      const result = await api.buyItem(itemId, price);
       setUser({
         ...user,
         tokens: result.tokens,
         inventory: result.inventory,
       });
-      alert(`Purchased ${itemName}!`);
+      alert(`Purchased ${items.find(i => i.id === itemId).name}!`);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleSelectCharacter = async (characterId) => {
+    try {
+      const result = await api.setCharacter(characterId);
+      setUser({
+        ...user,
+        character: result.character
+      });
+      alert("Character selected!");
     } catch (err) {
       alert(err.message);
     }
@@ -45,6 +58,9 @@ export default function Store() {
 
   if (loading) return <div className="store-container">Loading...</div>;
   if (error) return <div className="store-container error">{error}</div>;
+
+  const ownedItems = user?.inventory || [];
+  const isCharacterOwned = (characterId) => ownedItems.includes(characterId);
 
   return (
     <div className="store-container">
@@ -55,22 +71,44 @@ export default function Store() {
           You have <strong>{user?.tokens || 0}</strong> tokens.
         </p>
 
-        <h2>Available Items</h2>
+        <h2>Your Active Character</h2>
+        <div className="active-character">
+          <p>Current: <strong>{user?.character || "None"}</strong></p>
+        </div>
 
+        <h2>Characters</h2>
         <div className="items-grid">
-          {items.map((item) => (
-            <div key={item.id} className="store-item">
-              <span className="store-item-name">{item.name}</span>
-              <span className="store-item-price">{item.price} tokens</span>
+          {items.map((item) => {
+            const owned = isCharacterOwned(item.id);
+            const isActive = user?.character === item.id;
+            
+            return (
+              <div key={item.id} className="store-item">
+                <span className="store-item-name">{item.name}</span>
+                <span className="store-item-price">{item.price} tokens</span>
 
-              <button
-                onClick={() => handleBuy(item.name, item.price)}
-                disabled={user?.tokens < item.price}
-              >
-                {user?.tokens >= item.price ? "Buy" : "Not Enough Tokens"}
-              </button>
-            </div>
-          ))}
+                {owned ? (
+                  <button
+                    onClick={() => handleSelectCharacter(item.id)}
+                    disabled={isActive}
+                    style={{
+                      backgroundColor: isActive ? "#4CAF50" : "#2196F3",
+                      cursor: isActive ? "default" : "pointer"
+                    }}
+                  >
+                    {isActive ? "Active" : "Select"}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleBuy(item.id, item.price)}
+                    disabled={user?.tokens < item.price}
+                  >
+                    {user?.tokens >= item.price ? "Buy" : "Not Enough Tokens"}
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <h2>Your Inventory</h2>
@@ -94,3 +132,4 @@ export default function Store() {
     </div>
   );
 }
+

@@ -54,6 +54,8 @@ def signup():
 
         user = User(username=username)
         user.set_password(password)
+        user.inventory = "jack_o_lantern"
+        user.character = "jack_o_lantern"
         db.session.add(user)
         db.session.commit()
 
@@ -155,7 +157,8 @@ def api_get_user():
         "id": user.id,
         "username": user.username,
         "tokens": user.tokens,
-        "inventory": user.inventory.split(",") if user.inventory else []
+        "inventory": user.inventory.split(",") if user.inventory else [],
+        "character": user.character if user.character else "jack_o_lantern"
     })
 
 @app.route("/api/complete-maze", methods=["POST"])
@@ -178,13 +181,41 @@ def api_complete_maze():
         "message": f"Completed {maze_type} maze! Earned {tokens_earned} tokens"
     })
 
+@app.route("/api/user/character", methods=["POST"])
+def api_set_character():
+    """Set user's active character"""
+    if "user_id" not in session:
+        return jsonify({"error": "Not logged in"}), 401
+    
+    data = request.get_json()
+    character_id = data.get("character")
+    
+    user = User.query.get(session["user_id"])
+    
+    # Check if user owns this character
+    owned_items = user.inventory.split(",") if user.inventory else []
+    if character_id != "jack_o_lantern" and character_id not in owned_items:
+        return jsonify({"error": "Character not owned"}), 400
+    
+    user.character = character_id
+    db.session.commit()
+    
+    return jsonify({
+        "status": "success",
+        "character": user.character
+    })
+
 @app.route("/api/store/items", methods=["GET"])
 def api_get_store_items():
-    """Get all store items"""
+    """Get all store items including characters"""
     items = [
-        {"id": 1, "name": "item 1", "price": 20},
-        {"id": 2, "name": "item 2", "price": 35},
-        {"id": 3, "name": "item 3", "price": 50},
+        # Characters (IDs must match texture keys from preload)
+        {"id": "snowman", "name": "Snowman", "price": 100, "type": "character", "image": "snowman.png"},
+        {"id": "santa_claus", "name": "Santa", "price": 50, "type": "character", "image": "santa_claus.png"},
+        {"id": "reindeer", "name": "Reindeer", "price": 75, "type": "character", "image": "reindeer.png"},
+        {"id": "scarecrow", "name": "Scarecrow", "price": 100, "type": "character", "image": "scarecrow.png"},
+        {"id": "orange_ghost", "name": "Ghost", "price": 100, "type": "character", "image": "orange_ghost.png"},
+        # Other items
     ]
     return jsonify(items)
 

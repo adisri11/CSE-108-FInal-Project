@@ -89,7 +89,8 @@ export default function Game() {
             gameRef.current = null;
           }
           hasInitialized.current = false;
-          navigate("/game");
+          // change this to store
+          navigate("/store");
         }
       }, 100);
 

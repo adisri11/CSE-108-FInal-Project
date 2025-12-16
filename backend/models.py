@@ -10,9 +10,9 @@ class User(db.Model):
 
     tokens = db.Column(db.Integer, default=0)
 
-    inventory = db.Column(db.String, default="")
+    inventory = db.Column(db.String, default="jack_o_lantern")
 
-    character = db.Column(db.String(50), default="default")
+    character = db.Column(db.String(50), default="jack_o_lantern")
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

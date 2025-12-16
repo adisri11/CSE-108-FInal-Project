@@ -114,3 +114,17 @@
 .store-card button:hover {
   opacity: 0.9;
 }
+
+.active-character {
+  background: #e8f5e9;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #4CAF50;
+  margin-bottom: 20px;
+}
+
+.active-character p {
+  margin: 0;
+  color: #2e7d32;
+  font-size: 16px;
+}

@@ -1,72 +1,3 @@
-// import Phaser from 'phaser';
-
-// export default class PreloadFall extends Phaser.Scene {
-//   constructor() {
-//     super('PreloadFall');
-//   }
-
-//   init() {
-//     console.log("PreloadFall: init called");
-//   }
-
-//   preload() {
-//     console.log("PreloadFall: preload started");
-    
-//     // Add listeners BEFORE any loading
-//     this.load.on('start', () => {
-//       console.log('PreloadFall: Load STARTED');
-//     });
-
-//     this.load.on('progress', (progress) => {
-//       console.log('PreloadFall: Loading progress:', progress);
-//     });
-
-//     this.load.on('loaderror', (file) => {
-//       console.error('PreloadFall: Error loading file:', file.key, file.url);
-//     });
-
-//     this.load.on('filecomplete', (key) => {
-//       console.log('PreloadFall: Loaded:', key);
-//     });
-
-//     this.load.on('complete', () => {
-//       console.log('PreloadFall: All assets loaded successfully - COMPLETE EVENT');
-//     });
-
-//     // Show loading text
-//     const loadingText = this.add.text(640, 400, 'Loading...', {
-//       fontSize: '24px',
-//       fill: '#fff',
-//     });
-//     loadingText.setOrigin(0.5);
-
-//     // Load fall maze tilemap
-//     console.log("PreloadFall: Loading maze tilemap");
-//     this.load.tilemapTiledJSON('maze', '/assets/tilemaps/maze.tmj');
-
-//     // Load tilesets
-//     console.log("PreloadFall: Loading tilesets");
-//     this.load.image('Designer (3)', '/assets/tilesets/Designer (3).png');
-//     this.load.image('Designer (4)', '/assets/tilesets/Designer (4).png');
-
-//     // Load fall-specific elements
-//     console.log("PreloadFall: Loading fall elements");
-//     this.load.image('jack_o_lantern', '/assets/elements/jack_o_lantern.png');
-//     this.load.image('fall_coin', '/assets/elements/fall_coin.png');
-//     this.load.image('Riddles', '/assets/elements/Riddles.png');
-//     this.load.image('vendor', '/assets/elements/vendor.png');
-    
-//     console.log("PreloadFall: preload finished setting up loads, file queue size:", this.load.queue.entries.length);
-//   }
-
-//   create() {
-//     console.log('PreloadFall: CREATE CALLED - all assets should be loaded');
-//     console.log('PreloadFall: Checking loaded assets...');
-//     console.log('PreloadFall: maze loaded?', this.textures.exists('maze'));
-//     console.log('PreloadFall: starting FallMazeScene');
-//     this.scene.start('FallMazeScene');
-//   }
-// }
 import Phaser from 'phaser';
 
 export default class PreloadFall extends Phaser.Scene {
@@ -133,9 +64,16 @@ export default class PreloadFall extends Phaser.Scene {
     this.load.image('Designer (3)', '/assets/tilesets/Designer (3).png');
     this.load.image('Designer (4)', '/assets/tilesets/Designer (4).png');
 
+    console.log("PreloadFall: Queueing character sprites");
+    this.load.image('jack_o_lantern', '/assets/elements/jack_o_lantern.png');
+    this.load.image('orange_ghost', '/assets/elements/orange_ghost.png');
+    this.load.image('santa_claus', '/assets/elements/santa_claus.png');
+    this.load.image('reindeer', '/assets/elements/reindeer.png');
+    this.load.image('scarecrow', '/assets/elements/scarecrow.png');
+    this.load.image('snowman', '/assets/elements/snowman.png');
+
     // Load fall-specific elements
     console.log("PreloadFall: Queueing fall elements");
-    this.load.image('jack_o_lantern', '/assets/elements/jack_o_lantern.png');
     this.load.image('fall_coin', '/assets/elements/fall_coin.png');
     this.load.image('Riddles', '/assets/elements/Riddles.png');
     this.load.image('vendor', '/assets/elements/vendor.png');
