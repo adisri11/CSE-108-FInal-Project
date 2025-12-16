@@ -378,15 +378,15 @@
          "name":"Finish",
          "objects":[
                 {
-                 "height":114.429249232487,
+                 "height":78.1468043538936,
                  "id":29,
                  "name":"finish",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":142.33882221602,
-                 "x":1889.47809098521,
-                 "y":1448.50683784538
+                 "width":122.802121127547,
+                 "x":1900.64192017862,
+                 "y":1484.78928272397
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -394,8 +394,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":6,
- "nextobjectid":30,
+ "nextlayerid":7,
+ "nextobjectid":36,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
