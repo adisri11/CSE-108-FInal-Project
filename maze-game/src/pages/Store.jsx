@@ -15,7 +15,6 @@ export default function Store() {
       try {
         const userData = await api.getUser();
         setUser(userData);
-
         const storeItems = await api.getStoreItems();
         setItems(storeItems);
       } catch (err) {
@@ -25,7 +24,6 @@ export default function Store() {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [navigate]);
 
@@ -61,19 +59,30 @@ export default function Store() {
 
   const ownedItems = user?.inventory || [];
   const isCharacterOwned = (characterId) => ownedItems.includes(characterId);
+  const activeCharacterItem = items.find(i => i.id === user?.character);
 
   return (
     <div className="store-container">
       <div className="store-card">
         <h1>Item Store</h1>
-
         <p>
           You have <strong>{user?.tokens || 0}</strong> tokens.
         </p>
 
         <h2>Your Active Character</h2>
         <div className="active-character">
-          <p>Current: <strong>{user?.character || "None"}</strong></p>
+          {activeCharacterItem ? (
+            <>
+              <img 
+                src={`/assets/elements/${activeCharacterItem.image}`}
+                alt={activeCharacterItem.name}
+                className="active-character-image"
+              />
+              <p>Current: <strong>{activeCharacterItem.name}</strong></p>
+            </>
+          ) : (
+            <p>Current: <strong>None</strong></p>
+          )}
         </div>
 
         <h2>Characters</h2>
@@ -84,9 +93,17 @@ export default function Store() {
             
             return (
               <div key={item.id} className="store-item">
+                <div className="store-item-image">
+                  <img 
+                    src={`/assets/elements/${item.image}`}
+                    alt={item.name}
+                    onError={(e) => {
+                      e.target.src = '/assets/elements/jack_o_lantern.png';
+                    }}
+                  />
+                </div>
                 <span className="store-item-name">{item.name}</span>
                 <span className="store-item-price">{item.price} tokens</span>
-
                 {owned ? (
                   <button
                     onClick={() => handleSelectCharacter(item.id)}
@@ -112,7 +129,6 @@ export default function Store() {
         </div>
 
         <h2>Your Inventory</h2>
-
         <div className="inventory-box">
           {user?.inventory && user.inventory.length > 0 ? (
             <ul>
@@ -132,4 +148,3 @@ export default function Store() {
     </div>
   );
 }
-

@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "buildCommand": "pip install -r requirements.txt",
+  "env": {
+    "ENVIRONMENT": "production"
+  },
+  "functions": {
+    "api/**": {
+      "runtime": "python3.11"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.py"
+    }
+  ]
+}

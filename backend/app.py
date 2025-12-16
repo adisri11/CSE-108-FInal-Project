@@ -8,31 +8,47 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Simple CORS configuration that works
+# CORS configuration for Vercel deployment
 app.config['CORS_HEADERS'] = 'Content-Type'
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+
 CORS(app, supports_credentials=True, 
      resources={r"/*": {
-        "origins": "*",
+        "origins": [FRONTEND_URL],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type"]
      }})
 
-# Use SQLite for testing (change back to PostgreSQL for production)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
-# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "postgresql://postgres:QBaWvXPIb7ftLOsX@db.echpoiaidsqcaynlygdk.supabase.co:5432/postgres")
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "073bb069e67008f68e33e565d92812db4ee2c02fc9ac2630c39ed30e4cd3e6fa")
+# Database configuration - Use Supabase PostgreSQL for production
+if os.environ.get('ENVIRONMENT') == 'production':
+    # Supabase PostgreSQL connection
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url and db_url.startswith('postgres://'):
+        db_url = db_url.replace('postgres://', 'postgresql://')
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or "postgresql://user:password@host/dbname"
+else:
+    # SQLite for local development
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key-change-in-production")
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-app.config["SESSION_COOKIE_SECURE"] = False
+app.config["SESSION_COOKIE_SECURE"] = os.environ.get('ENVIRONMENT') == 'production'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 
 with app.app_context():
     db.create_all()
 
-# Redirect root to React frontend
+# Health check endpoint for Vercel
+@app.route("/api/health")
+def health():
+    return jsonify({"status": "ok"})
+
+# Redirect root based on environment
 @app.route("/")
 def home():
-    return redirect("http://localhost:5173/login")
+    return jsonify({"status": "Maze Game Backend", "version": "1.0"})
 
 # Keep auth routes but handle both form and JSON
 @app.route("/signup", methods=["GET", "POST", "OPTIONS"])
@@ -64,7 +80,7 @@ def signup():
         # Return JSON for React, or redirect for forms
         if request.is_json:
             return jsonify({"status": "success", "message": "Account created"})
-        return redirect("http://localhost:5173/game")
+        return redirect(f"{FRONTEND_URL}/game")
 
     return redirect("http://localhost:5173/signup")
 
@@ -90,7 +106,7 @@ def login():
             # Return JSON for React, or redirect for forms
             if request.is_json:
                 return jsonify({"status": "success", "message": "Logged in"})
-            return redirect("http://localhost:5173/game")
+            return redirect(f"{FRONTEND_URL}/game")
 
         return jsonify({"error": "Invalid username or password"}), 401
 
@@ -99,35 +115,31 @@ def login():
 @app.route("/game")
 def game():
     if "user_id" not in session:
-        return redirect("http://localhost:5173/login")
-
-    return redirect("http://localhost:5173/game")
+        return redirect(f"{FRONTEND_URL}/login")
+    return redirect(f"{FRONTEND_URL}/game")
 
 @app.route("/fall")
 def fall():
     if "user_id" not in session:
-        return redirect("http://localhost:5173/login")
-
-    return redirect("http://localhost:5173/game")
+        return redirect(f"{FRONTEND_URL}/login")
+    return redirect(f"{FRONTEND_URL}/game")
 
 @app.route("/winter")
 def winter():
     if "user_id" not in session:
-        return redirect("http://localhost:5173/login")
-
-    return redirect("http://localhost:5173/game")
+        return redirect(f"{FRONTEND_URL}/login")
+    return redirect(f"{FRONTEND_URL}/game")
 
 @app.route("/store")
 def store():
     if "user_id" not in session:
-        return redirect("http://localhost:5173/login")
-
-    return redirect("http://localhost:5173/store")
+        return redirect(f"{FRONTEND_URL}/login")
+    return redirect(f"{FRONTEND_URL}/store")
 
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect("http://localhost:5173/login")
+    return redirect(f"{FRONTEND_URL}/login")
 
 @app.route("/fall/complete", methods=["POST"])
 def fall_complete():
@@ -210,6 +222,7 @@ def api_get_store_items():
     """Get all store items including characters"""
     items = [
         # Characters (IDs must match texture keys from preload)
+        {"id": "jack_o_lantern", "name": "jack_o_lantern", "price": 0, "type": "character", "image": "jack_o_lantern.png"},
         {"id": "snowman", "name": "Snowman", "price": 100, "type": "character", "image": "snowman.png"},
         {"id": "santa_claus", "name": "Santa", "price": 50, "type": "character", "image": "santa_claus.png"},
         {"id": "reindeer", "name": "Reindeer", "price": 75, "type": "character", "image": "reindeer.png"},
