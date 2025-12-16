@@ -10,7 +10,19 @@ app = Flask(__name__)
 
 # CORS configuration for Vercel deployment
 app.config['CORS_HEADERS'] = 'Content-Type'
-FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
+FRONTEND_URL = os.environ.get('FRONTEND_URL')
+
+# In production, FRONTEND_URL must be set
+if ENVIRONMENT == 'production' and not FRONTEND_URL:
+    raise ValueError("FRONTEND_URL environment variable is required for production deployment")
+
+# Use localhost for development if not set
+if not FRONTEND_URL:
+    FRONTEND_URL = 'http://localhost:5173'
+
+print(f"Environment: {ENVIRONMENT}")
+print(f"Frontend URL: {FRONTEND_URL}")
 
 CORS(app, supports_credentials=True, 
      resources={r"/*": {
@@ -20,7 +32,7 @@ CORS(app, supports_credentials=True,
      }})
 
 # Database configuration - Use Supabase PostgreSQL for production
-if os.environ.get('ENVIRONMENT') == 'production':
+if ENVIRONMENT == 'production':
     # Supabase PostgreSQL connection
     db_url = os.environ.get('DATABASE_URL')
     if db_url and db_url.startswith('postgres://'):
@@ -32,7 +44,7 @@ else:
 
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key-change-in-production")
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-app.config["SESSION_COOKIE_SECURE"] = os.environ.get('ENVIRONMENT') == 'production'
+app.config["SESSION_COOKIE_SECURE"] = ENVIRONMENT == 'production'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
@@ -82,7 +94,7 @@ def signup():
             return jsonify({"status": "success", "message": "Account created"})
         return redirect(f"{FRONTEND_URL}/game")
 
-    return redirect("http://localhost:5173/signup")
+    return redirect(f"{FRONTEND_URL}/signup")
 
 @app.route("/login", methods=["GET", "POST", "OPTIONS"])
 @cross_origin(supports_credentials=True)
@@ -110,7 +122,7 @@ def login():
 
         return jsonify({"error": "Invalid username or password"}), 401
 
-    return redirect("http://localhost:5173/login")
+    return redirect(f"{FRONTEND_URL}/login")
 
 @app.route("/game")
 def game():
